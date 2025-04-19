@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const fetchOrders = createAsyncThunk(
   'order/fetchOrders',
   async () => {
-    const response = await axios.get(`${API_URL}/orders`);
+    const response = await axios.get(`${API_URL}/api/orders`);
     return response.data;
   }
 );
@@ -16,7 +16,7 @@ export const fetchOrders = createAsyncThunk(
 export const updateOrderStatus = createAsyncThunk(
   'order/updateOrderStatus',
   async ({ orderId, status }) => {
-    const response = await axios.patch(`${API_URL}/orders/${orderId}/status`, { status });
+    const response = await axios.patch(`${API_URL}/api/orders/${orderId}/status`, { status });
     return response.data;
   }
 );
@@ -25,7 +25,7 @@ export const updateOrderStatus = createAsyncThunk(
 export const placeOrder = createAsyncThunk(
   'order/placeOrder',
   async ({ orderData }, { dispatch }) => {
-    const response = await axios.post(`${API_URL}/orders`, orderData);
+    const response = await axios.post(`${API_URL}/api/orders`, orderData);
     dispatch(clearCart());
     return response.data;
   }
@@ -34,7 +34,7 @@ export const placeOrder = createAsyncThunk(
 export const fetchOrderHistory = createAsyncThunk(
   'order/fetchOrderHistory',
   async (phoneNumber) => {
-    const response = await axios.get(`${API_URL}/orders/phone/${phoneNumber}`);
+    const response = await axios.get(`${API_URL}/api/orders/phone/${phoneNumber}`);
     return response.data;
   }
 );
@@ -42,7 +42,7 @@ export const fetchOrderHistory = createAsyncThunk(
 export const cancelOrder = createAsyncThunk(
   'order/cancelOrder',
   async (orderId) => {
-    const response = await axios.post(`${API_URL}/orders/${orderId}/cancel`);
+    const response = await axios.post(`${API_URL}/api/orders/${orderId}/cancel`);
     return response.data;
   }
 );
