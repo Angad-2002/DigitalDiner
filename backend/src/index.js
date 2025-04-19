@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import './config/mongodb.js';
 import sequelize from './config/database.js';
 import Order from './models/Order.js';
+import User from './models/User.js';
 
 // Import routes
 import menuRoutes from './routes/menu.routes.js';
@@ -34,6 +35,20 @@ const syncDatabase = async () => {
   try {
     await sequelize.sync({ force: true });
     console.log('PostgreSQL database synchronized successfully');
+    
+    // Create admin user if it doesn't exist
+    const adminUser = await User.findOne({ where: { email: 'manager@resturant.com' } });
+    if (!adminUser) {
+      await User.create({
+        email: 'manager@resturant.com',
+        password: 'admin123',
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin',
+        isActive: true
+      });
+      console.log('Admin user created successfully');
+    }
   } catch (error) {
     console.error('Error synchronizing PostgreSQL database:', error);
   }
