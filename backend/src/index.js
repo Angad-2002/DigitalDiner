@@ -3,10 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
-
-// Import database connections
-import './config/mongodb.js';
-import './config/postgresql.js';
+import sequelize from './config/database.js';
+import Order from './models/Order.js';
 
 // Import routes
 import menuRoutes from './routes/menu.routes.js';
@@ -27,6 +25,16 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Sync database
+const syncDatabase = async () => {
+  try {
+    await sequelize.sync({ force: true });
+    console.log('Database synchronized successfully');
+  } catch (error) {
+    console.error('Error synchronizing database:', error);
+  }
+};
 
 // Routes
 app.use('/api/menu', menuRoutes);
@@ -50,6 +58,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await syncDatabase();
   console.log(`Server is running on port ${PORT}`);
 }); 
