@@ -7,7 +7,7 @@ A full-stack restaurant management system built with React, Node.js, Express, an
 
 ## Live Demo
 
-- Frontend: [Digital Diner on Netlify](https://digitaldiner.netlify.app)
+- Frontend: [Digital Diner on Netlify](https://venerable-lolly-da62c7.netlify.app/)
 - Backend: [Digital Diner API on Render](https://digitaldiner-uzml.onrender.com)
 
 ## Features
