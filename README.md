@@ -1,249 +1,185 @@
-# The Digital Diner - Restaurant Ordering System
+# Digital Diner - Restaurant Management System
 
-A full-stack web application for "The Digital Diner" that allows customers to browse the menu, place pickup orders, and view their order history.
+A full-stack restaurant management system built with React, Node.js, Express, and PostgreSQL.
+
+## Repository
+[GitHub Repository](https://github.com/Angad-2002/DigitalDiner)
+
+## Live Demo
+
+- Frontend: [Digital Diner on Netlify](https://digitaldiner.netlify.app)
+- Backend: [Digital Diner API on Render](https://digitaldiner-uzml.onrender.com)
+
+## Features
+
+- User authentication (login/signup)
+- Menu management
+- Order placement and tracking
+- Order history
+- Admin dashboard
+- Real-time order status updates
+
+## Tech Stack
+
+### Frontend
+- React.js
+- Redux Toolkit for state management
+- Material-UI for UI components
+- Axios for API calls
+
+### Backend
+- Node.js
+- Express.js
+- PostgreSQL for order management
+- MongoDB for menu items
+- JWT for authentication
 
 ## Database Design Choices
 
-### MongoDB (Menu Items)
-- Used for menu items due to their flexible schema nature
-- Menu items can have varying attributes (ingredients, allergens, customization options)
-- Better for handling unstructured data and nested documents
-- Easier to modify menu item structure without schema migrations
-- Efficient for read-heavy operations (menu browsing)
+### MongoDB for Menu Items
+- **Flexibility**: Menu items have varying attributes and structures
+- **Schema Evolution**: Easy to add new fields without migrations
+- **Performance**: Better for read-heavy operations
+- **Document Structure**: Natural fit for menu items with nested data
+- **Scalability**: Horizontal scaling for growing menu items
+- **Development Speed**: Faster iteration during development
 
-### PostgreSQL (Orders & Users)
-- Used for order and user information due to their structured nature
-- Strong referential integrity for order-user relationships
-- Better for complex queries involving user order history
-- ACID compliance ensures reliable order processing
-- Better for handling relationships between orders and user data
-
-## API Endpoints
-
-### Menu Endpoints
-- `GET /api/menu` - Get all menu items
-- `GET /api/menu/categories` - Get menu items by categories
-- `GET /api/menu/:id` - Get specific menu item details
-- `POST /api/menu` (Admin) - Add new menu item
-- `PUT /api/menu/:id` (Admin) - Update menu item
-- `DELETE /api/menu/:id` (Admin) - Delete menu item
-
-### Order Endpoints
-- `POST /api/orders` - Place a new order
-- `GET /api/orders/phone/:phoneNumber` - Get order history by phone number
-- `GET /api/orders/:id` - Get specific order details
+### PostgreSQL for Orders
+- **Data Integrity**: Strong consistency and ACID compliance
+- **Relationships**: Better for handling order relationships
+- **Transactions**: Support for complex order operations
+- **Query Performance**: Efficient for order history and filtering
+- **Data Validation**: Built-in constraints and validations
+- **Reporting**: Better support for complex queries and analytics
 
 ## Setup Instructions
 
 ### Prerequisites
 - Node.js (v14 or higher)
-- MongoDB
 - PostgreSQL
+- MongoDB
 - npm or yarn
 
 ### Backend Setup
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Angad-2002/DigitalDiner.git
+cd DigitalDiner/backend
+```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Create `.env` file with the following variables:
-   ```
-   PORT=5000
-   MONGODB_URI=your_mongodb_uri
-   POSTGRES_URI=your_postgres_uri
-   ```
+3. Create a `.env` file in the backend directory:
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_uri
+POSTGRES_URI=your_postgres_uri
+JWT_SECRET=your_jwt_secret
+```
 
-4. Start the server:
-   ```bash
-   npm run dev
-   ```
+4. Set up databases:
+```bash
+# For MongoDB
+mongosh
+use digital_diner
+
+# For PostgreSQL
+psql
+CREATE DATABASE digital_diner;
+```
+
+5. Start the backend server:
+```bash
+npm run dev
+```
 
 ### Frontend Setup
+
 1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+```bash
+cd ../frontend
+```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Create `.env` file with:
-   ```
-   REACT_APP_API_URL=http://localhost:5000
-   ```
+3. Create a `.env` file:
+```env
+VITE_API_URL=http://localhost:5000
+```
 
 4. Start the development server:
-   ```bash
-   npm start
-   ```
-
-## Deployment
-
-### Frontend (Netlify)
-1. Push your frontend code to a GitHub repository
-2. Go to [Netlify](https://www.netlify.com/) and sign up/login
-3. Click "New site from Git"
-4. Select your GitHub repository
-5. Configure the build settings:
-   - Build command: `npm run build`
-   - Publish directory: `build`
-6. Add environment variables:
-   - `REACT_APP_API_URL`: Your Render backend URL
-   - `REACT_APP_STRIPE_PUBLIC_KEY`: Your Stripe public key
-7. Click "Deploy site"
-
-### Backend (Render)
-1. Push your backend code to a GitHub repository
-2. Go to [Render](https://render.com/) and sign up/login
-3. Click "New +" and select "Web Service"
-4. Connect your GitHub repository
-5. Configure the service:
-   - Name: Choose a name for your service
-   - Environment: Node
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-   - Plan: Free
-6. Add environment variables:
-   - `MONGODB_URI`: Your MongoDB connection string
-   - `JWT_SECRET`: Your JWT secret key
-   - `FRONTEND_URL`: Your Netlify frontend URL
-   - `PORT`: 10000 (or your preferred port)
-7. Click "Create Web Service"
-
-### Local Development
-To run the application locally:
-
-1. Start the backend:
 ```bash
-cd backend
-npm install
-npm start
+npm run dev
 ```
 
-2. Start the frontend:
-```bash
-cd frontend
-npm install
-npm start
-```
+## API Endpoints
 
-The frontend will be available at `http://localhost:3000` and the backend at `http://localhost:5000`.
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/users/signup` - User registration
+- `POST /api/auth/logout` - User logout
 
-## Technologies Used
-- Frontend: React, React Router, Context API for state management
-- Backend: Node.js, Express
-- Databases: MongoDB, PostgreSQL
-- Deployment: Netlify (frontend)
+### Menu
+- `GET /api/menu` - Get all menu items
+- `GET /api/menu/:id` - Get menu item by ID
+- `POST /api/menu` - Create menu item (admin only)
+- `PUT /api/menu/:id` - Update menu item (admin only)
+- `DELETE /api/menu/:id` - Delete menu item (admin only)
+- `GET /api/menu/categories` - Get all menu categories
 
-## Features
-- Browse menu items by category
-- Add items to cart
-- Modify cart contents
-- Place orders with contact information
-- View order history using phone number
-- Responsive design for mobile and desktop
+### Orders
+- `GET /api/orders` - Get all orders (admin only)
+- `GET /api/orders/phone/:phoneNumber` - Get orders by phone number
+- `POST /api/orders` - Create new order
+- `PATCH /api/orders/:id/status` - Update order status (admin only)
+- `POST /api/orders/:id/cancel` - Cancel order
+- `GET /api/orders/:id` - Get order details
 
-## Challenges Faced
-1. Integration of dual databases (MongoDB and PostgreSQL)
-2. State management for shopping cart
-3. CORS configuration for deployment
-4. Error handling across the full stack
+### Admin
+- `GET /api/admin/dashboard` - Get admin dashboard data
+- `GET /api/admin/orders` - Get all orders with details
+- `GET /api/admin/menu-items` - Get all menu items with details
+- `GET /api/admin/stats` - Get restaurant statistics
 
-## Future Improvements
-1. User authentication system
-2. Real-time order status updates
-3. Admin dashboard for menu management
-4. Payment processing integration
-5. Order customization options
+## Assumptions and Challenges
 
-# The Digital Diner - Database Design
+### Assumptions
+1. Users will provide valid phone numbers for order tracking
+2. Menu items will have consistent attributes
+3. Order statuses follow a predefined workflow
+4. Admin users will manage menu items responsibly
+5. Users have stable internet connection
+6. Mobile numbers are unique per user
+7. Menu items are available unless explicitly marked as unavailable
 
-## Hybrid Database Architecture
+### Challenges Faced
+1. **Database Integration**: Managing two different databases (MongoDB and PostgreSQL)
+2. **State Management**: Handling complex order states in Redux
+3. **Authentication**: Implementing secure JWT-based authentication
+4. **CORS Configuration**: Setting up proper CORS for frontend-backend communication
+5. **Deployment**: Configuring environment variables for different environments
+6. **Real-time Updates**: Implementing order status updates
+7. **Error Handling**: Managing errors across different services
+8. **Data Migration**: Moving from MongoDB to PostgreSQL for orders
 
-This application uses both MongoDB and PostgreSQL databases, each optimized for specific types of data and operations.
+## AI Tools Usage
+This project utilized AI tools for:
+- Code suggestions and optimizations
+- Debugging assistance
+- Documentation generation
+- Code review and improvements
 
-### MongoDB Collections
+All code has been thoroughly reviewed and understood before implementation.
 
-1. **MenuItems**
-   - Stores menu items with flexible schema
-   - Contains nested data (ingredients, allergens)
-   - Optimized for read-heavy operations
-   - Schema can evolve easily as menu changes
-   - Indexes on category, text search, and availability
+## License
+MIT License - feel free to use this project as a template for your own restaurant management system.
 
-2. **Carts**
-   - Temporary storage for user shopping carts
-   - Document-based structure for easy updates
-   - TTL index for automatic cleanup
-   - References PostgreSQL user IDs
-
-### PostgreSQL Tables
-
-1. **Users**
-   - Structured user profiles
-   - Authentication data
-   - Role-based access control
-   - Unique constraints on email and phone
-
-2. **Orders**
-   - Relational order data
-   - Strong consistency requirements
-   - References to users and payments
-   - Status tracking and history
-
-3. **OrderItems**
-   - Line items for orders
-   - References to MongoDB menu items
-   - Price and quantity tracking
-   - Special instructions
-
-4. **Payments**
-   - Transactional payment data
-   - ACID compliance required
-   - Payment status tracking
-   - Secure payment details storage
-
-## Design Justification
-
-### MongoDB Usage
-- **Menu Items**: Flexible schema allows for varying item details and easy updates
-- **Carts**: Document-based structure suits temporary, session-based data
-- **Benefits**:
-  - Schema flexibility
-  - Easy scaling for read-heavy operations
-  - Natural handling of nested data
-  - Fast writes for cart operations
-
-### PostgreSQL Usage
-- **Users & Orders**: Strong relationships and consistency requirements
-- **Payments**: Transactional integrity and ACID compliance
-- **Benefits**:
-  - Relational integrity
-  - Complex query support
-  - Transaction support
-  - Data consistency
-
-## Data Flow
-1. Users authenticate through PostgreSQL
-2. Menu items are served from MongoDB
-3. Cart operations use MongoDB for temporary storage
-4. Order placement moves data to PostgreSQL
-5. Payment processing uses PostgreSQL for transaction safety
-
-## Indexing Strategy
-- MongoDB: Text search, category, and availability indexes
-- PostgreSQL: Foreign keys, status, and timestamp indexes
-
-## Security Considerations
-- Sensitive data (passwords, payment info) stored in PostgreSQL
-- MongoDB used for public-facing data
-- Proper indexing for performance
-- Data validation at both database levels 
+## Contact
+For any questions or suggestions, please open an issue in the repository. 
