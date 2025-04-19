@@ -6,8 +6,8 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://digital-diner.netlify.app', // Replace with your actual Netlify URL
-    'https://*.onrender.com', // Allow all Render subdomains
+    'https://680375be90e7b5ffa96ff8aa--venerable-lolly-da62c7.netlify.app',
+    'https://digitaldiner-uzml.onrender.com',
     process.env.FRONTEND_URL
   ].filter(Boolean),
   credentials: true,
