@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { body } from 'express-validator';
 import { validateRequest } from '../middleware/validate.js';
-import User from '../models/postgresql/User.js';
+import User from '../models/User.js';
 
 const router = express.Router();
 
@@ -42,7 +42,7 @@ router.post('/login', [
         role: user.role
       },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      { expiresIn: '24h' }
     );
 
     // Return user info and token
@@ -99,7 +99,7 @@ router.get('/me', async (req, res) => {
       name: error.name,
       stack: error.stack
     });
-    res.status(401).json({ error: 'Invalid token' });
+    res.status(500).json({ error: 'Authentication failed' });
   }
 });
 
