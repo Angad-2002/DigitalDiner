@@ -3,6 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
+
+// Import database connections
+import './config/mongodb.js';
 import sequelize from './config/database.js';
 import Order from './models/Order.js';
 
@@ -26,13 +29,13 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Sync database
+// Sync PostgreSQL database
 const syncDatabase = async () => {
   try {
     await sequelize.sync({ force: true });
-    console.log('Database synchronized successfully');
+    console.log('PostgreSQL database synchronized successfully');
   } catch (error) {
-    console.error('Error synchronizing database:', error);
+    console.error('Error synchronizing PostgreSQL database:', error);
   }
 };
 
