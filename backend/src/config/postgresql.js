@@ -13,6 +13,12 @@ console.log('Attempting to connect to PostgreSQL with URI:', process.env.POSTGRE
 const sequelize = new Sequelize(process.env.POSTGRES_URI, {
   dialect: 'postgres',
   logging: console.log, // Enable SQL query logging
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
   pool: {
     max: 5,
     min: 0,
