@@ -53,14 +53,18 @@ const User = sequelize.define('User', {
   hooks: {
     beforeCreate: async (user) => {
       if (user.password) {
+        console.log('Hashing password for new user:', user.email);
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
+        console.log('Password hashed successfully');
       }
     },
     beforeUpdate: async (user) => {
       if (user.changed('password')) {
+        console.log('Hashing password for updated user:', user.email);
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
+        console.log('Password hashed successfully');
       }
     }
   }
@@ -68,7 +72,10 @@ const User = sequelize.define('User', {
 
 // Instance method to check password
 User.prototype.isValidPassword = async function(password) {
-  return await bcrypt.compare(password, this.password);
+  console.log('Checking password for user:', this.email);
+  const isMatch = await bcrypt.compare(password, this.password);
+  console.log('Password match:', isMatch);
+  return isMatch;
 };
 
 export default User; 

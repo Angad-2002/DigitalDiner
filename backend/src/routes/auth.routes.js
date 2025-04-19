@@ -15,6 +15,7 @@ router.post('/login', [
 ], async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Login attempt for email:', email);
 
     // Find admin user
     const user = await User.findOne({
@@ -26,12 +27,20 @@ router.post('/login', [
     });
 
     if (!user) {
+      console.log('User not found or not an admin');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('User found:', {
+      id: user.id,
+      email: user.email,
+      role: user.role
+    });
+
+    // Check password using the instance method
+    const isMatch = await user.isValidPassword(password);
     if (!isMatch) {
+      console.log('Password does not match');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
@@ -44,6 +53,8 @@ router.post('/login', [
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
+
+    console.log('Login successful, token generated');
 
     // Return user info and token
     res.json({
@@ -85,7 +96,7 @@ router.get('/me', async (req, res) => {
         role: 'admin',
         isActive: true
       },
-      attributes: ['id', 'email', 'firstName', 'lastName', 'role'] // Exclude sensitive data
+      attributes: ['id', 'email', 'firstName', 'lastName', 'role']
     });
 
     if (!user) {
